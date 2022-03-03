@@ -1,7 +1,7 @@
 import socket
 
 PORT = 8080
-SERVER ='192.168.10.6'
+SERVER =''
 ADDR = (SERVER, PORT)
 
 # membuat koneksi dengan SERVER

@@ -1,7 +1,7 @@
 import socket
 
 PORT = 8080
-SERVER = socket.gethostbyname(socket.gethostname())
+SERVER ='192.168.10.6'
 ADDR = (SERVER, PORT)
 
 # membuat koneksi dengan SERVER

@@ -10,50 +10,55 @@ import threading
 PORT = 8080
 SERVER = socket.gethostbyname(socket.gethostname()) # mendapat ipv4 address otomatis
 ADDR = (SERVER, PORT)
-# untuk keperluan buffer
-HEADER = 64
-FORMAT = 'utf-8'
-DISCONNECT_MESSAGE = "DISCONNECT"
 
+# mmembuat server dan memulainya pada SERVER
 my_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # (family, type)
 my_server.bind(ADDR)
 
 def handle_client(conn, addr):
-    print(f"[NEW CONNECTION] {addr} conneceted")
+    '''
+    # SEND and RECIEVE
 
+    ## .recv('argument') berisi panjang buffer berupa int, kemudian .decode('[format semisal utf-8]')
+        karena .recv() akan menerima data sebagai bit, dan perlu decode menjadi format yang ditentukan
+
+    ## .send('argument') berisi string sebagai data, kemudian string tersebut juga harus
+        di .encode('[format semisal utf-8]') sebelum dikirim,
+        (encode berarti mengubah string tersebut *dari* format yang ditentukan menjadi bit)
+        karena .send() harus berisi object bit
+    '''
+
+    print(f"[NEW CONNECTION] {addr} conneceted")
     connected = True
 
     while connected:
         # menerima message
-        msg_length = conn.recv(HEADER).decode(FORMAT) # secara default dia berupa bit, dan harus di decode
+        message = conn.recv(100).decode('utf-8')
 
-        # saat pertama kali dijalankan msg_length berisi None
-        if msg_length: # if not None
-            msg_length = int(msg_length)
-            msg = conn.recv(msg_length).decode(FORMAT)
-
-            if msg == DISCONNECT_MESSAGE:
-                '''
-                jika msg berisi "DISCONNECT",
-                maka while akan berhenti,
-                dan menutup hubungan
-                '''
-                conn.send("you have been disconnected".encode(FORMAT))
-                connected = False
-
-            # mengirim pesan kembai kepada client
-            conn.send("msg recieved".encode(FORMAT))
-            print(f"{addr} : {msg}")
+        if message == "DISCONNECT":
+            # jika msg berisi "DISCONNECT",
+            # maka while akan berhenti,
+            # dan menutup hubungan
+            conn.send("you have been disconnected".encode('utf-8'))
+            print(f"{addr} has been disconnected")
+            connected = False # break while loop
 
         else:
-            pass
+            # mengirim pesan callback kepada client
+            conn.send("message recieved".encode('utf-8'))
+            # print message
+            print(f"{addr} : {message}")
 
     conn.close()
 
 # main
 def start():
+    print("[STARTING] server is starting....")
+
     my_server.listen()
     print(f"[LISTENING] server is listening on {SERVER}")
+    print("############################### \n")
+
     while True:
         conn, addr = my_server.accept()
         thread = threading.Thread(target=handle_client, args=(conn, addr)) # (args=) akan me pass argument
@@ -62,5 +67,4 @@ def start():
         # print proses yang berjalan dalam threading
         print(f"[ACTIVE CONNECTION] {threading.activeCount() - 1}")
 
-print("[STARTING] server is starting....")
 start()

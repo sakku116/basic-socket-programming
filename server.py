@@ -33,9 +33,9 @@ def handle_client(conn, addr):
 
     while connected:
         # menerima message
-        message = conn.recv(100).decode('utf-8')
+        message = conn.recv(1024).decode('utf-8')
 
-        if message == "DISCONNECT":
+        if message == "!disconnect":
             # jika msg berisi "DISCONNECT",
             # maka while akan berhenti,
             # dan menutup hubungan.
@@ -47,9 +47,10 @@ def handle_client(conn, addr):
             connected = False # break while loop
 
         else:
+            len_msg = len(message)
             # print message
             print("---------------------------")
-            print(f"{addr} : {message}\n")
+            print(f"{addr} : {message} ({len_msg}) \n")
             # mengirim pesan callback kepada client
             conn.send("message recieved".encode('utf-8'))
 

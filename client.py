@@ -12,16 +12,22 @@ def sendToServer(msg):
     # mengirim pesan ke server
     client.send(msg.encode('utf-8'))
 
-    recieve_msg = client.recv(2048).decode('utf-8')
+    recieve_msg = client.recv(128).decode('utf-8')
     print(f"(server) : {recieve_msg}\n")
 
 def start():
     print("###############################")
     print(f"[STARTING] connected to {ADDR}")
-    print("> type 'DISCONNECT' to disconnect from server")
+    print("> type '-disconnect' to disconnect from server")
     print("############################### \n")
 
     while True:
-        sendToServer(input("enter a message: "))
+        input_msg = input("enter a message: ")
+        
+        if input_msg == "!disconnect":
+            sendToServer(input_msg)
+            exit()
+        else:
+            sendToServer(input_msg)
 
 start()

@@ -13,11 +13,12 @@ def sendToServer(msg):
     client.send(msg.encode('utf-8'))
 
     recieve_msg = client.recv(2048).decode('utf-8')
-    print(f"[server] : {recieve_msg}")
+    print(f"(server) : {recieve_msg}\n")
 
 def start():
+    print("###############################")
     print(f"[STARTING] connected to {ADDR}")
-    print("type 'DISCONNECT' to disconnect from server")
+    print("> type 'DISCONNECT' to disconnect from server")
     print("############################### \n")
 
     while True:

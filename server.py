@@ -38,21 +38,26 @@ def handle_client(conn, addr):
         if message == "DISCONNECT":
             # jika msg berisi "DISCONNECT",
             # maka while akan berhenti,
-            # dan menutup hubungan
+            # dan menutup hubungan.
+
+            # mengirim callback disconnected ke client
             conn.send("you have been disconnected".encode('utf-8'))
-            print(f"{addr} has been disconnected")
+
+            print(f"[DISCONNECT] {addr} disconnected")
             connected = False # break while loop
 
         else:
+            # print message
+            print("---------------------------")
+            print(f"{addr} : {message}\n")
             # mengirim pesan callback kepada client
             conn.send("message recieved".encode('utf-8'))
-            # print message
-            print(f"{addr} : {message}")
 
     conn.close()
 
 # main
 def start():
+    print("###############################")
     print("[STARTING] server is starting....")
 
     my_server.listen()

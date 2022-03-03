@@ -70,6 +70,6 @@ def start():
         thread.start()
 
         # print proses yang berjalan dalam threading
-        print(f"[ACTIVE CONNECTION] {threading.activeCount() - 1}")
+        print(f"[CURRENT ACTIVE CONNECTION] {threading.activeCount() - 1}")
 
 start()

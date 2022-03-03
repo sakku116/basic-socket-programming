@@ -8,10 +8,10 @@ import socket
 import threading
 
 PORT = 8080
-SERVER = socket.gethostbyname(socket.gethostname()) # mendapat ipv4 address otomatis
+SERVER = socket.gethostbyname(socket.gethostname()) # mendapat local ipv4 address otomatis
 ADDR = (SERVER, PORT)
 
-# mmembuat server dan memulainya pada SERVER
+# mmembuat server
 my_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # (family, type)
 my_server.bind(ADDR)
 
@@ -62,7 +62,7 @@ def start():
     print("[STARTING] server is starting....")
 
     my_server.listen()
-    print(f"[LISTENING] server is listening on {SERVER}")
+    print(f"[LISTENING] server is listening on {ADDR}")
     print("############################### \n")
 
     while True:

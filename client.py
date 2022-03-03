@@ -1,12 +1,5 @@
 import socket
-
-PORT = 8080
-SERVER =''
-ADDR = (SERVER, PORT)
-
-# membuat koneksi dengan SERVER
-client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client.connect(ADDR)
+import sys
 
 def sendToServer(msg):
     # mengirim pesan ke server
@@ -30,4 +23,18 @@ def start():
         else:
             sendToServer(input_msg)
 
-start()
+if __name__ == "__main__":
+    try:
+        SERVER = sys.argv[1]
+    except:
+        print('[ADDR ERROR] please enter the ip_address argument that server running in')
+        exit()
+
+    PORT = 8080
+    ADDR = (SERVER, PORT) # SERVER, PORT harus sesuai dengan milik server
+
+    # membuat koneksi dengan SERVER
+    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client.connect(ADDR)
+
+    start()

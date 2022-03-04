@@ -29,7 +29,10 @@ def start():
 
 if __name__ == "__main__":
     try:
-        # mendapatkan ip address dari argument
+        # mendapatkan ip address dari argument.
+        # client bisa saja mendapatkan ipv4 address secara otomatis seperti pada server.py.
+        # tetapi untuk beberapa device seperti android tidak bisa melakukannya.
+        # maka dapatkan address secara manual dengan membuat argumen saat menjalankan script.
         SERVER = sys.argv[1]
         PORT = 8080
         ADDR = (SERVER, PORT)
